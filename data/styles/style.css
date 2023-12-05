@@ -1,0 +1,462 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+  /*========== Colors ==========*/
+  --github-light-background: black;
+  --github-light-text: white;
+  --github-dark-background: #7d88ff;
+  --github-dark-text: black;
+
+  --hue-color: 240;
+
+  --first-color: hsl(var(--hue-color), 53%, 49%);
+  --title-color: hsl(var(--hue-color), 53%, 15%);
+  --text-color: hsl(var(--hue-color), 12%, 35%);
+  --text-color-light: hsl(var(--hue-color), 12%, 65%);
+  --white-color: #FFF;
+  --body-color: hsl(var(--hue-color), 24%, 94%);
+
+  /*========== Font and typography ==========*/
+  --body-font: 'Poppins', sans-serif;
+  --biggest-font-size: 3rem;
+  --small-font-size: 1.2rem;
+  --smaller-font-size: .75rem;
+  --tiny-font-size: .625rem;
+
+  /*========== Font weight ==========*/
+  --font-medium: 500;
+
+  /*========== Margenes Bottom ==========*/
+  --mb-0-25: .25rem;
+  --mb-1: 1rem;
+  --mb-1-5: 1.5rem;
+  --mb-2-5: 2.5rem;
+
+  /*========== z index ==========*/
+  --z-normal: 1;
+  --z-tooltip: 10;
+}
+
+@media screen and (min-width: 968px) {
+  :root {
+    --biggest-font-size: 3.5rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
+    --tiny-font-size: .75rem;
+  }
+}
+
+/*========== Variables Dark theme ==========*/
+body.dark-theme {
+  --title-color: hsl(var(--hue-color), 12%, 95%);
+  --text-color: hsl(var(--hue-color), 12%, 75%);
+  --body-color: hsl(var(--hue-color), 10%, 16%);
+}
+
+/*========== Button Dark/Light ==========*/
+.clock__theme {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  display: flex;
+  padding: .25rem;
+  border-radius: 50%;
+  box-shadow: inset -1px -1px 1px hsla(var(--hue-color), 0%, 100%, 1), 
+              inset 1px 1px 1px hsla(var(--hue-color), 30%, 86%, 1);
+  color: var(--first-color);
+  cursor: pointer;
+  transition: .4s;
+}
+
+/*========== Box shadow Dark theme ==========*/
+.dark-theme .clock__circle {
+  box-shadow: 6px 6px 16px hsla(var(--hue-color), 8%, 12%, 1), 
+              -6px -6px 16px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset -6px -6px 16px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset 6px 6px 12px hsla(var(--hue-color), 8%, 12%, 1);
+}
+
+.dark-theme .clock__theme {
+  box-shadow: inset -1px -1px 1px hsla(var(--hue-color), 8%, 20%, 1), 
+              inset 1px 1px 1px hsla(var(--hue-color), 8%, 12%, 1);
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  background-color: var(--body-color);
+  color: var(--text-color);
+  transition: .4s;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*=============== REUSABLE CSS CLASSES ===============*/
+.container {
+  max-width: 968px;
+  margin-left: var(--mb-1);
+  margin-right: var(--mb-1);
+	padding-top: 25px;
+}
+
+.grid {
+  display: grid;
+}
+
+/*=============== CLOCK ===============*/
+.clock__container {
+  height: 100vh;
+  grid-template-rows: 4fr 1fr max-content;
+}
+
+.clock__circle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  box-shadow: -6px -6px 16px var(--white-color), 
+              6px 6px 16px hsla(var(--hue-color), 30%, 86%, 1), 
+              inset 6px 6px 16px hsla(var(--hue-color), 30%, 86%, 1), 
+              inset -6px -6px 16px var(--white-color);
+  border-radius: 50%;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s;
+}
+
+.clock__content {
+  align-self: center;
+  row-gap: 3.5rem;
+}
+
+.clock__twelve, 
+.clock__three, 
+.clock__six, 
+.clock__nine {
+  position: absolute;
+  width: 1rem;
+  height: 1px;
+  background-color: var(--text-color-light);
+}
+
+.clock__twelve, 
+.clock__six {
+  transform: translateX(-50%) rotate(90deg);
+}
+
+.clock__twelve {
+  top: 1.25rem;
+  left: 50%;
+}
+
+.clock__three {
+  top: 50%;
+  right: .75rem;
+}
+
+.clock__six {
+  bottom: 1.25rem;
+  left: 50%;
+}
+
+.clock__nine {
+  left: .75rem;
+  top: 50%;
+}
+
+.clock__rounder {
+  width: .75rem;
+  height: .75rem;
+  background-color: var(--first-color);
+  border-radius: 50%;
+  border: 2px solid var(--body-color);
+  z-index: var(--z-tooltip);
+}
+
+.clock__hour, 
+.clock__minutes, 
+.clock__seconds {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+.clock__hour {
+  width: 105px;
+  height: 105px;
+}
+
+.clock__hour::before {
+  content: '';
+  position: absolute;
+  background-color: var(--text-color);
+  width: .25rem;
+  height: 3rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__minutes {
+  width: 136px;
+  height: 136px;
+}
+
+.clock__minutes::before {
+  content: '';
+  position: absolute;
+  background-color: var(--text-color);
+  width: .25rem;
+  height: 4rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__seconds {
+  width: 130px;
+  height: 130px;
+}
+
+.clock__seconds::before {
+  content: '';
+  position: absolute;
+  background-color: var(--first-color);
+  width: .125rem;
+  height: 5rem;
+  border-radius: .75rem;
+  z-index: var(--z-normal);
+}
+
+.clock__text {
+  display: flex;
+  justify-content: center;
+}
+
+.clock__text-hour, 
+.clock__text-minutes,
+.clock__text-seconds {
+  font-size: var(--biggest-font-size);
+  font-weight: var(--font-medium);
+  color: var(--title-color);
+}
+
+.clock__date {
+  text-align: center;
+  font-size: var(--small-font-size);
+  font-weight: var(--font-medium);
+}
+
+/*=============== MEDIA QUERIES ===============*/
+/* For large devices */
+@media screen and (min-width: 968px) {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .clock__logo {
+    margin-bottom: 3rem;
+  }
+}
+
+/*================= POPUP ========================*/
+/* Modal Window (popup) */
+
+.popup {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .6);
+	top: 0;
+	left: 0;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.6s ease;
+	display: flex;
+	align-items: center;
+	color: #000;
+	justify-content: center;
+	z-index: 999;
+}
+
+.popup.open .popup_content {
+	transform: translate(0, 0) rotateX(0deg);
+	opacity: 1;
+}
+
+.popup.open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.popup_body {
+	padding: 30px 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.popup_content {
+	border-radius: 10px;
+	background: rgba(255, 255, 255, .5);
+	backdrop-filter: blur(10px);
+	color: var(--color);
+	max-width: 1200px;
+	padding: 20px;
+	position: relative;
+	transition: all 0.6s ease;
+	opacity: 0;
+	transform: perspective(600px) translate(0px, -100%) rotateX(45deg);
+}
+
+.popup_close {
+	text-decoration: none;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-size: 20px;
+	color: var(--color);
+}
+
+/* Popup Content 2 */
+.book {
+	position: relative;
+	width: 300px;
+	height: 400px;
+	background-color: #fff;
+	box-shadow: inset 300px 0 50px rgba(0, 0, 0, 0.4);
+	border-radius: 10px;
+	cursor: pointer;
+	transform: perspective(2000px);
+	transform-style: preserve-3d;
+	transition: all 1s ease;
+}
+.cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	border-radius: 10px;
+	transform-origin: left;
+	transform-style: preserve-3d;
+	transition: all 1s ease;
+}
+
+.cover img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 10px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	backface-visibility: hidden;
+}
+
+.cover img:nth-child(2) {
+	transform: rotateY(180deg);
+}
+
+.book:hover {
+	transform: perspective(2000px);
+	box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.4);
+}
+
+.book:hover .cover{
+	transform: rotateY(-135deg);
+}
+
+.page {
+	width: 100%;
+	height: 100%;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.page h2 {
+	margin-bottom: 20px;
+	color: cornflowerblue;
+}
+
+.page p {
+	align-self: flex-start;
+	margin-left: 20px;
+	color: var(--color);
+	margin-bottom: 5px;
+}
+
+/* About */
+.about {
+  padding: 25px 30px;
+  margin-bottom: 80px;
+  color: #7d88ff;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+  letter-spacing: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about:hover {
+  background: #7d88ff;
+  color: #050801;
+  box-shadow: 0 0 5px #7d88ff,
+              0 0 25px #7d88ff,
+              0 0 50px #7d88ff,
+              0 0 200px #7d88ff;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+/*=================== GITHUB ====================*/
+.github {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  margin-left: -75px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+body:not(.dark-theme) .github {
+  background-color: var(--github-light-background);
+  color: var(--github-light-text);
+}
+
+body.dark-theme .github {
+  background-color: var(--github-dark-background);
+  color: var(--github-dark-text);
+}
+
+.github:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 17px 20px -6px rgba(36, 52, 70, 0.36);
+}
+
+.github:active {
+  transform: scale(0.9);
+  box-shadow: 0px 17px 20px -6px rgba(36, 52, 70, 0.36);
+}
+
+

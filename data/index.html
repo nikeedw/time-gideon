@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+	<link rel="manifest" href="favicons/site.webmanifest">
+	<link rel='stylesheet' href='styles/style.css'>
+	<title>TIME GIDEON</title>
+</head>
+
+<body>
+
+	<section class="clock container">
+		<div class="clock__container grid">
+			<div class="clock__content grid">
+				<div class="clock__circle">
+					<span class="clock__twelve"></span>
+					<span class="clock__three"></span>
+					<span class="clock__six"></span>
+					<span class="clock__nine"></span>
+
+					<div class="clock__rounder"></div>
+					<div class="clock__hour" id="clock-hour"></div>
+					<div class="clock__minutes" id="clock-minutes"></div>
+					<div class="clock__seconds" id="clock-seconds"></div>
+
+					<!-- Dark/light button -->
+					<div class="clock__theme">
+						<i class='bx bxs-moon' id="theme-button"></i>
+					</div>
+				</div>
+
+				<div>
+					<div class="clock__text">
+						<div class="clock__text-hour" id="text-hour"></div>
+						<div class="clock__text-minutes" id="text-minutes"></div>
+						<div class="clock__text-seconds" id="text-seconds"></div>
+					</div>
+
+					<div class="clock__date">
+						<!-- <span id="date-day-week"></span> -->
+						<span id="date-day"></span>
+						<span id="date-month"></span>
+						<span id="date-year"></span>
+					</div>
+				</div>
+			</div>
+
+			<a class="about popup-link" href="#popup">
+				ABOUT PROJECT
+			</a>
+
+		</div>
+	</section>
+
+	<div id="popup" class="popup">
+		<div class="popup_body">
+			<div class="book">
+				<a href="#header" class="popup_close close-popup"><ion-icon name="close-outline"></ion-icon></a>
+				<div class="cover">
+					<img src="https://images.hdqwalls.com/download/digital-rain-3840x2400.jpg" alt="#">
+					<img src="https://catherineasquithgallery.com/uploads/posts/2021-02/1614261196_35-p-fon-chernii-granzh-71.jpg"
+						alt="#">
+				</div>
+				<div class="page">
+					<h2>Что я использовал?</h2>
+					<p>ESP32 модуль</p>
+					<p>Дисплей I2C</p>
+					<p>Network Time Protocol (NTP)</p>
+					<p>Asynchronus Server</p>
+					<p>SPIFFS</p>
+					<p>STYLES</p>
+					<p>HTML</p>
+					<p>JavaScript Fetch queries</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<a class="github" href="#">See on GitHub<a />
+
+		<script src="scripts/clock.js"></script>
+		<script src="scripts/popup.js"></script>
+		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
