@@ -5,23 +5,24 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 
-//address 0x27
-LiquidCrystal_I2C lcd(0x27, 16, 2);   //LCD Object
+// Address 0x27
+LiquidCrystal_I2C lcd(0x27, 16, 2);   // LCD Object
 
 const char* ssid = "Nikolaev";
 const char* password = "12345678";
 
 const char* ntpServer1 = "pool.ntp.org";
 const char* ntpServer2 = "time.nist.gov";
-const long  gmtOffset_sec = 3600;
-const int   daylightOffset_sec = 3600;
+const long gmtOffset_sec = 3600;
+const int daylightOffset_sec = 3600;
 
 AsyncWebServer server(80);
 
 void printLocalTime()
 {
   struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
+  if (!getLocalTime(&timeinfo))
+  {
     Serial.println("No time available (yet)");
     return;
   }
@@ -29,15 +30,25 @@ void printLocalTime()
   // Добавление 1 часа к времени
   timeinfo.tm_hour = (timeinfo.tm_hour + 1) % 24;
 
-  //Display Date & Time
+  // Массив сокращений названий дней недели
+  const char *daysOfWeek[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+  // Определение сокращения текущего дня недели
+  const char *dayOfWeekShort = daysOfWeek[timeinfo.tm_wday];
+
+  // Вывод Date & Day of Week
   lcd.clear();
-  lcd.print(&timeinfo, "%B %d %Y");    //November 22 2022
-  lcd.setCursor(0,1);
-  lcd.print(&timeinfo, "%A,%H:%M:%S"); //Tuesday 10:30:05
+  lcd.print(&timeinfo, "%B %d %Y");
+  lcd.setCursor(0, 1);
+  lcd.print(dayOfWeekShort);
+  lcd.setCursor(8, 1);
+
+  // Вывод времени
+  lcd.print(&timeinfo, "%H:%M:%S");
 }
 
 // Callback function (NTP)
-void timeavailable(struct timeval *t)
+void timeAvailable(struct timeval *t)
 {
   Serial.println("Got time adjustment from NTP!");
   printLocalTime();
@@ -47,11 +58,12 @@ void setup()
 {
   Serial.begin(115200);
 
-    // Connect to Wi-Fi
+  // Connect to Wi-Fi
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-      delay(1000);
-      Serial.println("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to WiFi");
 
@@ -60,12 +72,13 @@ void setup()
   Serial.println(WiFi.localIP());
 
   // Initialize SPIFFS
-  if (!SPIFFS.begin()) {
-      Serial.println("Failed to mount file system");
-      return;
+  if (!SPIFFS.begin())
+  {
+    Serial.println("Failed to mount file system");
+    return;
   }
 
-  // Server static files
+  // Serve static files
   server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
 
   // Start server
@@ -75,12 +88,12 @@ void setup()
   lcd.init();
   lcd.backlight();
 
-  // set notification call-back function
-  sntp_set_time_sync_notification_cb( timeavailable );
+  // Set notification call-back function
+  sntp_set_time_sync_notification_cb(timeAvailable);
   sntp_servermode_dhcp(1);    // (optional)
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer1, ntpServer2);
 
-  //connect to WiFi
+  // Connect to WiFi
   Serial.printf("Connecting to %s ", ssid);
   lcd.clear();
   lcd.print("Connecting to ");
@@ -89,9 +102,10 @@ void setup()
   delay(1000);
 
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      Serial.print(".");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
   }
   Serial.println(" CONNECTED");
   lcd.clear();
@@ -102,5 +116,5 @@ void setup()
 void loop()
 {
   delay(1000);
-  printLocalTime(); 
+  printLocalTime();
 }
